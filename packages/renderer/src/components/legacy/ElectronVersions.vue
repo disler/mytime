@@ -17,7 +17,6 @@ const versions = Object.entries(window.versions)
       <strong>{{ lib }}</strong>: v{{ version }}
     </li>
   </ul>
-  <code>packages/renderer/src/components/ElectronVersions.vue</code>
 </template>
 
 <style scoped>

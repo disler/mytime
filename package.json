@@ -7,6 +7,7 @@
   },
   "main": "packages/main/dist/index.cjs",
   "scripts": {
+    "dev": "npm run watch",
     "build": "npm run build:main && npm run build:preload && npm run build:renderer",
     "build:main": "cd ./packages/main && vite build",
     "build:preload": "cd ./packages/preload && vite build",
@@ -39,6 +40,7 @@
     "happy-dom": "2.30.1",
     "nano-staged": "0.5.0",
     "playwright": "1.18.0",
+    "sass": "^1.49.0",
     "simple-git-hooks": "2.7.0",
     "typescript": "4.5.5",
     "vite": "2.7.13",
@@ -46,7 +48,9 @@
     "vue-tsc": "0.31.1"
   },
   "dependencies": {
+    "@vueuse/core": "^7.5.5",
     "electron-updater": "4.6.5",
-    "vue": "3.2.29"
+    "vue": "3.2.29",
+    "vuex": "^4.0.2"
   }
 }
