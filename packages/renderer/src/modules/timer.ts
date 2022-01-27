@@ -34,3 +34,10 @@ export function formatHoursMinutesSeconds(hms: HoursMinutesSeconds): string {
     const seconds = hms.seconds < 10 ? `0${hms.seconds}` : hms.seconds;
     return `${hours}${minutes}:${seconds}`;
 }
+
+/**
+ * Combines hours, minutes and seconds into seconds
+ */
+export function convertHoursMinutesSecondsToSeconds(hms: HoursMinutesSeconds): number {
+    return hms.hours * 3600 + hms.minutes * 60 + hms.seconds;
+}

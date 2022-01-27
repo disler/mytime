@@ -2,7 +2,7 @@
     <div class="timer-w">
 
         <div class="time-picker-w">
-            <!-- <TimePicker /> -->
+            <TimePicker v-show="timerIsNotActiveAndNotAlerting" :defaultTimeInSeconds="DEFAULT_START_TIME" @update="updateTimerFromPicker"/>
         </div>
         
         <div v-if="!timerIsComplete" class="timer-active">
@@ -27,7 +27,9 @@
     import * as TimeHandler from '/@/modules/timer';
     import { useIntervalFn } from '@vueuse/core'
     import useAnimation from '/@/hooks/useAnimation';
-    import { ref } from 'vue';
+    import { computed, ref } from 'vue';
+    import { HoursMinutesSeconds } from '../types';
+    import alertAudio from "/@/../assets/test.mp4"
 
     const store = useStore()
 
@@ -36,8 +38,20 @@
     const resume = ref(() => {})
     const isActive = ref(false)
     const timerIsComplete = ref(false)
+    const audioPlayer = ref<HTMLAudioElement | null>(null)
+
+    const timerIsNotActiveAndNotAlerting = computed(_ => !isActive.value && !timerIsComplete.value)
+
     const timePulseAnimation = useAnimation("text-pulse")
     const timeShakeAnimation = useAnimation("text-shake")
+
+    const DEFAULT_START_TIME = TimeHandler.DEFAULT_START_TIME
+
+    function updateTimerFromPicker(hhmmss: HoursMinutesSeconds): void {
+        const seconds = TimeHandler.convertHoursMinutesSecondsToSeconds(hhmmss)
+        setTime(seconds)
+        updateTimer()
+    }
 
     function updateTimer(): void {
         const seconds = store.state.timeInSeconds
@@ -50,6 +64,27 @@
         if (store.state.timeInSeconds < 0) {
             timerIsComplete.value = true
             stopTimer()
+            playAlertSound()
+        }
+    }
+
+    function preloadAudio(): void {
+        audioPlayer.value = new Audio(alertAudio)
+        audioPlayer.value.preload = "auto"
+    }
+
+    function playAlertSound(): void {
+        // audioPlayer.value = new Audio(alertAudio)
+        if (audioPlayer.value) {
+            audioPlayer.value.loop = true
+            audioPlayer.value.play()
+        }
+    }
+
+    function stopAlertSound(): void {
+        if (audioPlayer.value) {
+            audioPlayer.value.pause()
+            audioPlayer.value.currentTime = 0
         }
     }
 
@@ -73,7 +108,7 @@
     }
 
     function setTimeToDefault(): void {
-        setTime(TimeHandler.DEFAULT_START_TIME)
+        setTime(DEFAULT_START_TIME)
         updateTimer()
     }
 
@@ -85,6 +120,7 @@
     function clickTimerComplete(): void {
         timerIsComplete.value = false
         setTimeToDefault()
+        stopAlertSound()
     }
 
     function clickTime(): void {
@@ -97,6 +133,7 @@
         timePulseAnimation.animate()
     }
 
+    preloadAudio()
     setTimeToDefault()
 
 </script>
@@ -105,17 +142,43 @@
 
     @import "/@/styles/main.scss";
 
+    .timer-w {
+        position: relative;
+        width: 100%;
+        height: 100%;
+    }
+
+    .timer-active {
+        // center absolute with xy translate
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .time-picker-w {
+        padding-top: 7vh;
+    }
 
     .time {
         @include noselect;
-        font-size: 15vw;
+        font-size: 20vw;
         font-weight: bold;
         color: #2c3e50;
         letter-spacing: 7px;
         cursor: pointer;
     }
+
+    .timer-complete {
+        width: 100%;
+        @include flex-center-both;
+    }
     .bell-w {
         @include a-shake;
+
         cursor: pointer;
+        width: 100px;
     }
+
+    
 </style>

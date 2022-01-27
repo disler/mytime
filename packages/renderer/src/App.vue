@@ -15,12 +15,13 @@ import Timer from '/@/components/Timer.vue';
 
 #app {
   font-family: 'Play', sans-serif;
+  height: 95vh;
+  width: 100%;
   /* font-family: Avenir, Helvetica, Arial, sans-serif; */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin: 60px auto;
-  max-width: 700px;
+  min-height: 290px;
 }
 </style>

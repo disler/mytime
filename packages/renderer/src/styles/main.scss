@@ -8,6 +8,35 @@
                                     supported by Chrome, Edge, Opera and Firefox */
 }
 
+
+// -------------- MIXINS
+
+
+@mixin flex-apart {
+	display: flex;
+	justify-content: space-between;
+}
+
+@mixin flex-center {
+	display: flex;
+	justify-content: center;
+}
+@mixin flex-center-both {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+@mixin flex-even {
+	display: flex;
+	justify-content: space-evenly;
+}
+
+@mixin flex-vert {
+	display: flex;
+  flex-direction: column;
+	justify-content: space-evenly;
+}
+
 @mixin noselect {
     -webkit-touch-callout: none; /* iOS Safari */
       -webkit-user-select: none; /* Safari */
@@ -32,11 +61,11 @@
 
 @keyframes text-pulse {
   0% {
-    text-shadow: 0 0 0 rgba(0, 0, 0, 0.7);
+    text-shadow: 0 0 0 rgba(0, 0, 0, 0.8);
   }
 
   100% {
-    text-shadow: 0 0 100px rgba(0, 0, 0, 0.0);
+    text-shadow: 0 0 150px rgba(0, 0, 0, 0.0);
   }
 }
 

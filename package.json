@@ -48,9 +48,11 @@
     "vue-tsc": "0.31.1"
   },
   "dependencies": {
+    "@types/play-sound": "^1.1.0",
     "@vueuse/core": "^7.5.5",
     "electron-updater": "4.6.5",
     "vue": "3.2.29",
+    "vue-multiselect": "^3.0.0-alpha.2",
     "vuex": "^4.0.2"
   }
 }
