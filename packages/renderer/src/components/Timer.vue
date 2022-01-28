@@ -1,8 +1,20 @@
 <template>
     <div class="timer-w">
 
+        <div class="settings-w">
+            <transition name="fade">
+                <div class="gear-w" v-show="timerIsNotActiveAndNotAlerting">
+                    <Icons icon="gear" width="30px" height="30px" @click="clickGear" />
+                </div>
+            </transition>
+        </div>
+
         <div class="time-picker-w">
-            <TimePicker v-show="timerIsNotActiveAndNotAlerting" :defaultTimeInSeconds="DEFAULT_START_TIME" @update="updateTimerFromPicker"/>
+
+            <transition name="fade">
+                <TimePicker v-show="timerIsNotActiveAndNotAlerting" :defaultTimeInSeconds="DEFAULT_START_TIME" @update="updateTimerFromPicker"/>
+            </transition>
+
         </div>
         
         <div v-if="!timerIsComplete" class="timer-active">
@@ -29,7 +41,7 @@
     import useAnimation from '/@/hooks/useAnimation';
     import { computed, ref } from 'vue';
     import { HoursMinutesSeconds } from '../types';
-    import alertAudio from "/@/../assets/test.mp4"
+    import alertAudio from "/@/../assets/alert.wav"
 
     const store = useStore()
 
@@ -133,6 +145,10 @@
         timePulseAnimation.animate()
     }
 
+    function clickGear(): void {
+        store.commit("setWindowMode", 'settings')
+    }
+
     preloadAudio()
     setTimeToDefault()
 
@@ -142,13 +158,25 @@
 
     @import "/@/styles/main.scss";
 
+    .settings-w {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        width: 30px;
+        height: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+    }
+
     .timer-w {
         position: relative;
         width: 100%;
         height: 100%;
     }
 
-    .timer-active {
+    .timer-active, .timer-complete {
         // center absolute with xy translate
         position: absolute;
         top: 50%;
@@ -164,7 +192,6 @@
         @include noselect;
         font-size: 20vw;
         font-weight: bold;
-        color: #2c3e50;
         letter-spacing: 7px;
         cursor: pointer;
     }
@@ -178,6 +205,10 @@
 
         cursor: pointer;
         width: 100px;
+    }
+
+    .gear-w {
+        cursor: pointer;
     }
 
     

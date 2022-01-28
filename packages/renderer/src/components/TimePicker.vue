@@ -101,10 +101,11 @@
     .unit-multiselect{
         .multiselect__tags {
             border: none;
-            background: #eee;   
+            background: var(--theme-input-bg-color);   
+            color: var(--theme-text-color);
 
             input {
-                background: #eee;   
+                background: var(--theme-input-bg-color);   
             }
         }
 
@@ -115,7 +116,7 @@
             padding-right: 25px;
         }
         .multiselect__single {
-            background: #eee;
+            background: var(--theme-input-bg-color);   
         }
     }
 </style>

@@ -49,6 +49,7 @@
   },
   "dependencies": {
     "@types/play-sound": "^1.1.0",
+    "@vueform/toggle": "^2.0.1",
     "@vueuse/core": "^7.5.5",
     "electron-updater": "4.6.5",
     "vue": "3.2.29",

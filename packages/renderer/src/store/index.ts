@@ -1,13 +1,15 @@
 import { InjectionKey } from 'vue'
 import { createStore, Store, useStore as baseUseStore } from 'vuex'
-import {StoreInterface} from "../types"
+import {StoreInterface, WindowMode} from "../types"
 
 
 // Create a new store instance.
 const store = createStore<StoreInterface>({
     state (): StoreInterface {
         return {
-            timeInSeconds: 0
+            timeInSeconds: 0,
+            windowMode: 'timer',
+            settingsDarkMode: false,
         }
     },
     mutations: {
@@ -17,6 +19,12 @@ const store = createStore<StoreInterface>({
         setTime(state, value: number):  void {
             state.timeInSeconds = value
         },
+        setWindowMode(state, value: WindowMode):  void {
+            state.windowMode = value
+        },
+        setSettingsDarkMode(state, value: boolean):  void {
+            state.settingsDarkMode = value
+        }
     },
     actions: {}
 })
