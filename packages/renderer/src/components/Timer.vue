@@ -39,8 +39,8 @@
     import * as TimeHandler from '/@/modules/timer';
     import { useIntervalFn } from '@vueuse/core'
     import useAnimation from '/@/hooks/useAnimation';
-    import { computed, ref } from 'vue';
-    import { HoursMinutesSeconds } from '../types';
+    import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
+    import { HotKey, HoursMinutesSeconds } from '../types';
     import alertAudio from "/@/../assets/alert.wav"
 
     const store = useStore()
@@ -149,8 +149,51 @@
         store.commit("setWindowMode", 'settings')
     }
 
+    function beginTimerFromHotKey(hotKey: HotKey) {
+        if (store.state.windowMode !== 'timer') {
+            return
+        }
+        var hotKeyTime = store.state.hotKey1Time
+        if (hotKey === 2) {
+            hotKeyTime = store.state.hotKey2Time
+        }
+        else if (hotKey === 3) {
+            hotKeyTime = store.state.hotKey3Time
+        }
+        setTime(hotKeyTime)
+        clickTime()
+    }
+
+    function keydownEvent(e: KeyboardEvent): void {
+        if (e.key === "1") {
+            beginTimerFromHotKey(1)
+        }
+        if (e.key === "2") {
+            beginTimerFromHotKey(2)
+        }
+        if (e.key === "3") {
+            beginTimerFromHotKey(3)
+        }
+    }
+
+    function setupHotkeys(): void {
+        window.addEventListener("keydown", keydownEvent)
+    }
+
+    function removeHotkeys(): void {
+        window.removeEventListener("keydown", keydownEvent)
+    }
+
     preloadAudio()
     setTimeToDefault()
+
+    onMounted(() => {
+        setupHotkeys()
+    })
+
+    onBeforeUnmount(() => {
+        removeHotkeys()
+    })
 
 </script>
 

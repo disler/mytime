@@ -1,6 +1,7 @@
 import { InjectionKey } from 'vue'
 import { createStore, Store, useStore as baseUseStore } from 'vuex'
 import {StoreInterface, WindowMode} from "../types"
+import * as Timer from "../modules/timer"
 
 
 // Create a new store instance.
@@ -9,7 +10,10 @@ const store = createStore<StoreInterface>({
         return {
             timeInSeconds: 0,
             windowMode: 'timer',
-            settingsDarkMode: false,
+            settingsDarkMode: true,
+            hotKey1Time: Timer.DEFAULT_HOT_KEY_1,
+            hotKey2Time: Timer.DEFAULT_HOT_KEY_2,
+            hotKey3Time: Timer.DEFAULT_HOT_KEY_3,
         }
     },
     mutations: {
@@ -24,7 +28,17 @@ const store = createStore<StoreInterface>({
         },
         setSettingsDarkMode(state, value: boolean):  void {
             state.settingsDarkMode = value
+        },
+        setHotKey1Time(state, value: number):  void {
+            state.hotKey1Time = value
+        },
+        setHotKey2Time(state, value: number):  void {
+            state.hotKey2Time = value
+        },
+        setHotKey3Time(state, value: number):  void {
+            state.hotKey3Time = value
         }
+
     },
     actions: {}
 })

@@ -1,8 +1,12 @@
 // handles all the timer related functionality
 
-import { HoursMinutesSeconds } from "../types";
+import { HotKey, HoursMinutesSeconds } from "../types";
 
-export const DEFAULT_START_TIME = minutesToSeconds(.1)
+
+export const DEFAULT_HOT_KEY_1 = minutesToSeconds(60)
+export const DEFAULT_HOT_KEY_2 = minutesToSeconds(30)
+export const DEFAULT_HOT_KEY_3 = minutesToSeconds(15)
+export const DEFAULT_START_TIME = DEFAULT_HOT_KEY_1
 
 /**
  * Convert 300s to {hours: 0, minutes: 5, seconds: 0}

@@ -22,7 +22,7 @@ async function createWindow() {
     browserWindow?.show();
 
     if (import.meta.env.DEV) {
-      browserWindow?.webContents.openDevTools();
+      // browserWindow?.webContents.openDevTools(); // qqq disable after dev
     }
   });
 

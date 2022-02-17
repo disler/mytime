@@ -10,6 +10,9 @@
                 left
             </div> -->
             <div class="right-w">
+                <HotKey :hotKey="1" :defaultTime="hotKey1Time" @update="updateHotKeyTime(1, $event)"/>
+                <HotKey :hotKey="2" :defaultTime="hotKey2Time" @update="updateHotKeyTime(2, $event)"/>
+                <HotKey :hotKey="3" :defaultTime="hotKey3Time" @update="updateHotKeyTime(3, $event)"/>
                 <BoolSetting name="darkMode" label="Dark mode" :value="darkModeEnabled" @changed="changeDarkMode" />
             </div>
         </div>
@@ -19,13 +22,20 @@
 <script lang="ts" setup>
 import Icons from '/@/components/Icons.vue';
 import BoolSetting from '/@/components/BoolSetting.vue';
+import HotKey from '/@/components/HotKey.vue';
 import { useStore } from '../store';
 import { computed, ref } from 'vue';
 import { goDarkMode, goLightMode } from '../modules/settings';
-
+import { HoursMinutesSeconds, HotKey as HotKeyType } from '../types';
+import * as TimeHandler from '/@/modules/timer';
+import * as UserConfig from '/@/modules/userConfig';
 const store = useStore()
 
 const darkModeEnabled = computed(_ => store.state.settingsDarkMode)
+const hotKey1Time = computed(_ => store.state.hotKey1Time)
+const hotKey2Time = computed(_ => store.state.hotKey2Time)
+const hotKey3Time = computed(_ => store.state.hotKey3Time)
+
 
 function clickExit(): void {
     store.commit("setWindowMode", 'timer')
@@ -43,6 +53,27 @@ function triggerThemeChange(value: boolean): void {
     }
     goLightMode()
 }
+
+function updateHotKeyTime(hotKey: HotKeyType, hhmmss: HoursMinutesSeconds): void {
+    if (hotKey === 1) {
+        store.commit('setHotKey1Time', TimeHandler.convertHoursMinutesSecondsToSeconds(hhmmss))
+    }
+    else if (hotKey === 2) {
+        store.commit('setHotKey2Time', TimeHandler.convertHoursMinutesSecondsToSeconds(hhmmss))
+    }
+    else if (hotKey === 3) {
+        store.commit('setHotKey3Time', TimeHandler.convertHoursMinutesSecondsToSeconds(hhmmss))
+    }
+
+    // qqq dump hotkey values into user settings
+
+    console.log(`hotKey`, hotKey)
+    console.log(`hhmmss`, hhmmss)
+
+    UserConfig.saveConfig({})
+}
+
+triggerThemeChange(darkModeEnabled.value)
     
 </script>
 
@@ -81,8 +112,12 @@ function triggerThemeChange(value: boolean): void {
         }
 
         .right-w {
-            width: 50%;
+            width: 100%;
             height: 100%;
+
+            div {
+                padding: 10px 0;
+            }
         }
     }
 </style>
